@@ -12,6 +12,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController quantidadePessoasController = TextEditingController();
+  TextEditingController valorContaController = TextEditingController();
+  String _valorPessoa = "Informe seus dados";
+
+  void _calcular() {
+    double quantidadePessoas = double.parse(quantidadePessoasController.text);
+    double valorConta = double.parse(valorContaController.text);
+
+    double valorDividido = valorConta / quantidadePessoas;
+
+    setState(() {
+      _valorPessoa =
+          "Valor por Pessoa: ${valorDividido.toStringAsPrecision(3)}";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +49,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  controller: quantidadePessoasController,
                   decoration: InputDecoration(
                       labelText: "Quantidade de pessoas",
                       labelStyle: TextStyle(color: Colors.blue)),
@@ -41,6 +58,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  controller: valorContaController,
                   decoration: InputDecoration(
                       labelText: "Valor da Conta",
                       labelStyle: TextStyle(color: Colors.blue)),
@@ -52,7 +70,9 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     height: 40,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _calcular();
+                      },
                       child: Text(
                         "Calcular",
                         style: TextStyle(fontSize: 18),
@@ -62,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Text(
-                  "Valor por Pessoa",
+                  _valorPessoa,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.blue),
                 ),
